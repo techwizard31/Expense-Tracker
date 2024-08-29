@@ -36,15 +36,6 @@ export async function dashboardAction({ request }) {
   const { _action, ...values } = Object.fromEntries(data);
 
   // new user submission
-  if (_action === "newUser") {
-    try {
-      localStorage.setItem("userName", JSON.stringify(values.userName));
-      return toast.success(`Welcome, ${values.userName}`);
-    } catch (e) {
-      throw new Error("There was a problem creating your account.");
-    }
-  }
-
   if (_action === "createBudget") {
     try {
       createBudget({
@@ -91,7 +82,7 @@ const Dashboard = () => {
       {userName ? (
         <div className="dashboard">
           <h1>
-            Welcome back, <span className="accent">{userName}</span>
+            Welcome back, <span className="accent">{User.Name}</span>
           </h1>
           <div className="grid-sm">
             {budgets && budgets.length > 0 ? (
