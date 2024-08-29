@@ -13,6 +13,8 @@ import { deleteBudget } from "./actions/deleteBudget";
 
 // Routes
 import Dashboard, { dashboardAction, dashboardLoader } from "./pages/Dashboard";
+import Signup from "./pages/signup";
+import Login from "./pages/login";
 import Error from "./pages/Error";
 import BudgetPage, { budgetAction, budgetLoader } from "./pages/BudgetPage";
 import ExpensesPage, {
@@ -57,6 +59,16 @@ const router = createBrowserRouter([
       {
         path: "logout",
         action: logoutAction,
+      },
+      {
+        path: "signup",
+        element: <Signup />,
+        errorElement: <Error />,
+      },
+      {
+        path: "login",
+        element: <Login />,
+        errorElement: <Error />,
       },
     ],
   },
