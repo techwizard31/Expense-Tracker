@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "./signup.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
 
 function Signup() {
   const navigate = useNavigate();
@@ -41,7 +43,7 @@ function Signup() {
         <span className="title">Sign up</span>
         <span className="subtitle">Create a free account with your email.</span>
         {/* Use form element to capture onSubmit */}
-        <form className="form-container" onSubmit={handleSubmit}>
+        <form className="form-container" onSubmit={(e)=>handleSubmit(e)}>
           <input
             type="text"
             className="input"
@@ -64,8 +66,23 @@ function Signup() {
             onChange={(e) => setPassword(e.target.value)}
           />
           {/* Use button type="submit" to ensure form submission */}
-          <button type="submit" className="submit-button">Sign up</button>
         </form>
+          <button type="submit" className="submit-button">Sign up</button>
+          <div className="google">
+        <GoogleLogin
+                size="large"
+                width="200px"
+                logo_alignment="left"
+                text="signup_with"
+                onSuccess={(credentialResponse) => {
+                  const decoded = jwtDecode(credentialResponse.credential);
+                  console.log(decoded.email,decoded.given_name);
+                }}
+                onError={() => {
+                  console.log("Signup Failed");
+                }}
+              />
+          </div>
       </div>
       <div className="form-section">
         <p>

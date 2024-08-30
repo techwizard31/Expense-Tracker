@@ -86,3 +86,11 @@
 .form button:hover {
   scale: 1.1;
 }
+.google{
+  margin-left: auto;
+  margin-right: auto;
+  transition: scale 0.3s ease;
+}
+.google:hover{
+  scale:1.2;
+}
