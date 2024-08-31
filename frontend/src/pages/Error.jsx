@@ -6,6 +6,7 @@ import { HomeIcon, ArrowUturnLeftIcon } from "@heroicons/react/24/solid"
 const Error = () => {
   const error = useRouteError();
   const navigate = useNavigate();
+  console.log(error)
 
   return (
     <div className="error">

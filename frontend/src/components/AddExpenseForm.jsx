@@ -27,7 +27,7 @@ const AddExpenseForm = ({ budgets }) => {
   return (
     <div className="form-wrapper">
       <h2 className="h3">Add New{" "}<span className="accent">
-        {budgets.length === 1 && `${budgets.map((budg) => budg.name)}`}
+        {budgets.length === 1 && `${budgets.map((budg) => budg.Name)}`}
       </span>{" "}
         Expense
       </h2>
@@ -56,7 +56,7 @@ const AddExpenseForm = ({ budgets }) => {
               inputMode="decimal"
               name="newExpenseAmount"
               id="newExpenseAmount"
-              placeholder="e.g., 3.50"
+              placeholder="e.g., 16.01"
               required
             />
           </div>
@@ -69,8 +69,8 @@ const AddExpenseForm = ({ budgets }) => {
                 .sort((a, b) => a.createdAt - b.createdAt)
                 .map((budget) => {
                   return (
-                    <option key={budget.id} value={budget.id}>
-                      {budget.name}
+                    <option key={budget._id} value={budget._id}>
+                      {budget.Name}
                     </option>
                   )
                 })

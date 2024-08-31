@@ -17,12 +17,11 @@ function Signup() {
       toast.error("Fill all the fields !");
       return;
     }
-    const response = await fetch(`${process.env.REACT_APP_LINKED}/signup`, {
+    const response = await fetch(`http://localhost:4000/signup`, {
       method: "POST",
       headers: { "Content-type": "application/json" },
-      body: JSON.stringify({ email: email, password: password, Name: name }),
+      body: JSON.stringify({ Name: name, email: email, password: password }),
     });
-    console.log(JSON.stringify({ email: email, password: password, Name: name }));
     const json = await response.json();
     if (!response.ok) {
       toast.error(json.error);
@@ -30,7 +29,7 @@ function Signup() {
     if (response.ok) {
       toast.success("Sign up Successfully");
       sessionStorage.setItem("User", JSON.stringify(json));
-      navigate("/");
+      navigate("/home");
       setName("");
       setEmail("");
       setPassword("");
@@ -43,7 +42,7 @@ function Signup() {
         <span className="title">Sign up</span>
         <span className="subtitle">Create a free account with your email.</span>
         {/* Use form element to capture onSubmit */}
-        <form className="form-container" onSubmit={(e)=>handleSubmit(e)}>
+        <div className="form-container">
           <input
             type="text"
             className="input"
@@ -66,8 +65,8 @@ function Signup() {
             onChange={(e) => setPassword(e.target.value)}
           />
           {/* Use button type="submit" to ensure form submission */}
-        </form>
-          <button type="submit" className="submit-button">Sign up</button>
+        </div>
+          <button onClick={(e)=>handleSubmit(e)} className="submit-button">Sign up</button>
           <div className="google">
         <GoogleLogin
                 size="large"

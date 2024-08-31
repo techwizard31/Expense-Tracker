@@ -16,24 +16,24 @@ const ExpenseItem = ({ expense, showBudget }) => {
 
   const budget = getAllMatchingItems({
     category: "budgets",
-    key: "id",
+    key: "_id",
     value: expense.budgetId,
   })[0];
 
   return (
     <>
-      <td>{expense.name}</td>
-      <td>{formatCurrency(expense.amount)}</td>
+      <td>{expense.Name}</td>
+      <td>{formatCurrency(expense.Amount)}</td>
       <td>{formatDateToLocaleString(expense.createdAt)}</td>
       {showBudget && (
         <td>
           <Link
-            to={`/budget/${budget.id}`}
+            to={`/budget/${budget._id}`}
             style={{
               "--accent": budget.color,
             }}
           >
-            {budget.name}
+            {budget.Name}
           </Link>
         </td>
       )}

@@ -6,7 +6,6 @@ const budgetSchema = new Schema({
     user_id:{
         type: String,
         required: true,
-        unique: true
     },
     Name:{
         type: String,

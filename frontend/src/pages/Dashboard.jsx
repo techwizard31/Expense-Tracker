@@ -22,9 +22,10 @@ import {
 
 // loader
 export function dashboardLoader() {
-  const userName = fetchData("userName");
+  const User = fetchData("User");
   const budgets = fetchData("budgets");
   const expenses = fetchData("expenses");
+  const userName = User.user.Name;
   return { userName, budgets, expenses };
 }
 
@@ -82,7 +83,7 @@ const Dashboard = () => {
       {userName ? (
         <div className="dashboard">
           <h1>
-            Welcome back, <span className="accent">{User.Name}</span>
+            Welcome back, <span className="accent">{userName}</span>
           </h1>
           <div className="grid-sm">
             {budgets && budgets.length > 0 ? (

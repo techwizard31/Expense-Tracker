@@ -9,12 +9,73 @@ function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  let work = 0;
+  const generateRandomColor = () => {
+    const worked = work;
+    work++;
+    return `${worked * 34} 65% 50%`;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent default form submission
+    if (!email || !password ) {
+      toast.error("Fill all the fields !");
+      return;
+    }
+    const response = await fetch(`http://localhost:4000/login`, {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({ email: email, password: password }),
+    });
+    const json = await response.json();
+    if (!response.ok) {
+      toast.error(json.error);
+    }
+    if (response.ok) {
+      toast.success("Logged In Successfully");
+      sessionStorage.setItem("User", JSON.stringify(json));
+      const responsed = await fetch(`http://localhost:4000/expense/`, {
+        method: "POST",
+        headers: { "Content-type": "application/json" ,
+          Authorization: `Bearer ${json.token}`,
+        },
+        body: JSON.stringify({ user_id: json.user._id }),
+      });
+      
+      const jsoned = await responsed.json();
+      if(responsed.ok){
+        if(jsoned != []){
+          const expensives = [];
+          jsoned.map((item)=>{
+            item['color'] = generateRandomColor();
+            const expenses = item.expenses;
+            if (Array.isArray(expenses) && expenses.length > 0) {
+              expenses.map((expense) => {
+                  expense.budgetId = item._id; // Modify each expense object
+                  expensives.push(expense); // Add the modified expense to expensives array
+              });
+          }
+          })
+          sessionStorage.setItem("budgets", JSON.stringify(jsoned));
+          sessionStorage.setItem("expenses", JSON.stringify(expensives));
+        }
+      }else if(!responsed.ok){
+        toast.error(jsoned.error);
+      }
+      navigate("/home");
+      setName("");
+      setEmail("");
+      setPassword("");
+    }
+  };
+
   return (
     <div class="form-box">
       <div class="form">
         <span class="title">Login</span>
         <span class="subtitle">Login your account with your email</span>
-        <form className="form-container" onSubmit={(e)=>handleSubmit(e)}>
+        <div className="form-container" >
         <input
             type="email"
             className="input"
@@ -29,8 +90,8 @@ function Login() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-        </form>
-        <button type="submit" className="submit-button">Login</button>
+        </div>
+        <button onClick={(e)=>handleSubmit(e)} className="submit-button">Login</button>
           <div className="google">
         <GoogleLogin
                 size="large"
@@ -38,10 +99,10 @@ function Login() {
                 logo_alignment="left"
                 onSuccess={(credentialResponse) => {
                   const decoded = jwtDecode(credentialResponse.credential);
-                  console.log(decoded.email);
+                  console.log(decoded.email,decoded.given_name);
                 }}
                 onError={() => {
-                  console.log("Signup Failed");
+                  console.log("Login Failed");
                 }}
               />
           </div>

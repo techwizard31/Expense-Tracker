@@ -94,7 +94,7 @@ const createExpense = async(req,res) => {
       };
       budget.expenses.push(newExpense);
       await budget.save();
-      res.status(200).json(budget.expenses)
+      res.status(200).json(budget.expenses[budget.expenses.length -1])
     } catch (error) {
       res.status(400).json(error.message);
     }
