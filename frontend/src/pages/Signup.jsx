@@ -35,6 +35,26 @@ function Signup() {
       setPassword("");
     }
   };
+  const handlegooglesignup = async (email,Name) => {
+    try {
+      const response = await fetch(`http://localhost:4000/googlesignup`, {
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify({ Name: Name, email: email }),
+      });
+      const json = await response.json();
+      if (!response.ok) {
+        toast.error(json.error);
+      }
+      if (response.ok) {
+        toast.success("Sign up Successfully");
+        sessionStorage.setItem("User", JSON.stringify(json));
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  };
 
   return (
     <div className="form-box">
@@ -73,9 +93,9 @@ function Signup() {
                 width="200px"
                 logo_alignment="left"
                 text="signup_with"
-                onSuccess={(credentialResponse) => {
+                onSuccess={async(credentialResponse) => {
                   const decoded = jwtDecode(credentialResponse.credential);
-                  console.log(decoded.email,decoded.given_name);
+                  await handlegooglesignup(decoded.email,decoded.given_name);
                 }}
                 onError={() => {
                   console.log("Signup Failed");

@@ -35,10 +35,10 @@ const signupuser = async (req, res) => {
   // res.json({mssg:'signup user'})
 };
 
-const googlesignuppatient = async (req, res) => {
-  const { email } = req.body;
+const googlesignupuser = async (req, res) => {
+  const { email,Name } = req.body;
   try {
-    const user = await User.googlesignup(email);
+    const user = await User.googlesignup(email,Name);
     const token = createToken(user._id);
     res.status(200).json({ user, token});
   } catch (error) {
@@ -47,7 +47,7 @@ const googlesignuppatient = async (req, res) => {
   // res.json({mssg:'signup user'})
 };
 
-const googleloginpatient = async (req, res) => {
+const googleloginuser = async (req, res) => {
   const { email } = req.body;
   try {
     const user = await User.googlelogin(email);
@@ -64,8 +64,8 @@ router.post("/login", loginuser);
 
 router.post("/signup", signupuser);
 
-router.post("/googlesignup", googlesignuppatient);
+router.post("/googlesignup", googlesignupuser);
 
-router.post("/googlelogin", googleloginpatient);
+router.post("/googlelogin", googleloginuser);
 
 module.exports = router;

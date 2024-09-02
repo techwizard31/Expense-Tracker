@@ -17,6 +17,51 @@ function Login() {
     return `${worked * 34} 65% 50%`;
   };
 
+  const handlegooglelogin = async(email) =>{
+    const response = await fetch(`http://localhost:4000/googlelogin`, {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({ email: email }),
+    });
+    const json = await response.json();
+    if (!response.ok) {
+      toast.error(json.error);
+    }
+    if (response.ok) {
+      toast.success("Logged In Successfully");
+      sessionStorage.setItem("User", JSON.stringify(json));
+      const responsed = await fetch(`http://localhost:4000/expense/`, {
+        method: "POST",
+        headers: { "Content-type": "application/json" ,
+          Authorization: `Bearer ${json.token}`,
+        },
+        body: JSON.stringify({ user_id: json.user._id }),
+      });
+      
+      const jsoned = await responsed.json();
+      if(responsed.ok){
+        if(jsoned != []){
+          const expensives = [];
+          jsoned.map((item)=>{
+            item['color'] = generateRandomColor();
+            const expenses = item.expenses;
+            if (Array.isArray(expenses) && expenses.length > 0) {
+              expenses.map((expense) => {
+                  expense.budgetId = item._id; // Modify each expense object
+                  expensives.push(expense); // Add the modified expense to expensives array
+              });
+          }
+          })
+          sessionStorage.setItem("budgets", JSON.stringify(jsoned));
+          sessionStorage.setItem("expenses", JSON.stringify(expensives));
+        }
+      }else if(!responsed.ok){
+        toast.error(jsoned.error);
+      }
+      navigate("/");
+    }
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission
     if (!email || !password ) {
@@ -99,7 +144,7 @@ function Login() {
                 logo_alignment="left"
                 onSuccess={(credentialResponse) => {
                   const decoded = jwtDecode(credentialResponse.credential);
-                  console.log(decoded.email,decoded.given_name);
+                  handlegooglelogin(decoded.email)
                 }}
                 onError={() => {
                   console.log("Login Failed");
