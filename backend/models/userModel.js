@@ -12,7 +12,6 @@ const userSchema = new Schema({
      },
      password:{
         type: String,
-        required: true
      },
      Name:{
       type: String,
@@ -56,6 +55,33 @@ userSchema.statics.login = async function(email,password){
    }
 
    return user
+}
+
+userSchema.statics.googlesignup = async function(email){
+   if(!email){
+      throw Error('All fields must be filled')
+   }
+   if(!validator.isEmail(email)){
+      throw Error('Email is not valid')
+   }
+   const exists = await this.findOne({email})
+   if(exists){
+      throw Error('Email already in use')
+   }
+   const user = await this.create({email})
+   return user
+}
+
+userSchema.statics.googlelogin = async function(email){
+   if(!email){
+      throw Error('All fields must be filled')
+   }
+   const user = await this.findOne({email})
+   if(!user){
+      throw Error('Incorrect Email')
+   }
+
+   return user;
 }
 
 module.exports= mongoose.model('User', userSchema)

@@ -10,7 +10,7 @@ import { deleteItem } from "../helpers";
 export async function logoutAction() {
   // delete the user
   deleteItem({
-    key: "userName"
+    key: "User"
   })
   deleteItem({
     key: "budgets"

@@ -13,13 +13,11 @@ import {
 
 const ExpenseItem = ({ expense, showBudget }) => {
   const fetcher = useFetcher();
-
   const budget = getAllMatchingItems({
     category: "budgets",
     key: "_id",
     value: expense.budgetId,
   })[0];
-
   return (
     <>
       <td>{expense.Name}</td>
@@ -40,11 +38,12 @@ const ExpenseItem = ({ expense, showBudget }) => {
       <td>
         <fetcher.Form method="post">
           <input type="hidden" name="_action" value="deleteExpense" />
-          <input type="hidden" name="expenseId" value={expense.id} />
+          <input type="hidden" name="expenseId" value={expense._id} />
+          <input type="hidden" name="BudgetId" value={expense.budgetId} />
           <button
             type="submit"
             className="btn btn--warning"
-            aria-label={`Delete ${expense.name} expense`}
+            aria-label={`Delete ${expense.Name} expense`}
           >
             <TrashIcon width={20} />
           </button>

@@ -5,31 +5,42 @@ import { redirect } from "react-router-dom";
 import { toast } from "react-toastify";
 
 // helpers
-import { deleteItem, getAllMatchingItems } from "../helpers";
+import { getAllMatchingItems,fetchData } from "../helpers";
 
-export function deleteBudget({ params }) {
+const handledelete = async(id) =>{
+  const existingData = fetchData("budgets");
+  const User = JSON.parse(sessionStorage.getItem("User"));
+  const response = await fetch(
+    `http://localhost:4000/expense/delete`,
+    {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${User.token}`,
+      },
+      body: JSON.stringify({
+        _id: id,
+      }),
+    }
+  );
+  const json = await response.json();
+  if(response.ok){
+    const newData = existingData.filter((item) => item._id !== id);
+    sessionStorage.setItem("budgets", JSON.stringify(newData));
+  }else{
+    console.log(response.error)
+  }
+}
+
+export async function deleteBudget({ params }) {
   try {
-    deleteItem({
-      key: "budgets",
-      id: params.id,
-    });
-
-    const associatedExpenses = getAllMatchingItems({
-      category: "expenses",
-      key: "budgetId",
-      value: params.id,
-    });
-
-    associatedExpenses.forEach((expense) => {
-      deleteItem({
-        key: "expenses",
-        id: expense.id,
-      });
-    });
-
+    await handledelete(params.id);
+    const existingData = fetchData("expenses");
+    const newData = existingData.filter((item) => item.budgetId !== params.id);
+    sessionStorage.setItem("expenses", JSON.stringify(newData));
     toast.success("Budget deleted successfully!");
   } catch (e) {
     throw new Error("There was a problem deleting your budget.");
   }
-  return redirect("/");
+  return  window.location.href = '/';
 }

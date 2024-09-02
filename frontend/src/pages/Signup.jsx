@@ -29,7 +29,7 @@ function Signup() {
     if (response.ok) {
       toast.success("Sign up Successfully");
       sessionStorage.setItem("User", JSON.stringify(json));
-      navigate("/home");
+      navigate("/");
       setName("");
       setEmail("");
       setPassword("");

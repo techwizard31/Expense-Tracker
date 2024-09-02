@@ -1,5 +1,6 @@
 // rrd imports
 import { Link, useLoaderData } from "react-router-dom";
+import { useParams } from 'react-router-dom';
 
 // library imports
 import { toast } from "react-toastify";
@@ -19,13 +20,14 @@ import {
   fetchData,
   waait,
 } from "../helpers";
+import { useEffect } from "react";
 
 // loader
 export function dashboardLoader() {
   const User = fetchData("User");
   const budgets = fetchData("budgets");
   const expenses = fetchData("expenses");
-  const userName = User.user.Name;
+  const userName = User?.user?.Name ?? null;
   return { userName, budgets, expenses };
 }
 
@@ -67,6 +69,7 @@ export async function dashboardAction({ request }) {
       deleteItem({
         key: "expenses",
         id: values.expenseId,
+        budgetId: values.BudgetId
       });
       return toast.success("Expense deleted!");
     } catch (e) {

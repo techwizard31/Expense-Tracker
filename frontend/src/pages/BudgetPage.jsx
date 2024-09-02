@@ -10,20 +10,20 @@ import BudgetItem from "../components/BudgetItem";
 import Table from "../components/Table";
 
 // helpers
-import { createExpense, deleteItem, getAllMatchingItems } from "../helpers";
+import { createExpense, deleteItem, getAllMatchingItems} from "../helpers";
 
 // loader
 export async function budgetLoader({ params }) {
   const budget = await getAllMatchingItems({
     category: "budgets",
-    key: "id",
-    value: params.id,
+    key: "_id",
+    value: `${params.id}`,
   })[0];
 
   const expenses = await getAllMatchingItems({
     category: "expenses",
     key: "budgetId",
-    value: params.id,
+    value: `${params.id}`,
   });
 
   if (!budget) {
@@ -75,7 +75,7 @@ const BudgetPage = () => {
       }}
     >
       <h1 className="h2">
-        <span className="accent">{budget.name}</span> Overview
+        <span className="accent">{budget.Name}</span> Overview
       </h1>
       <div className="flex-lg">
         <BudgetItem budget={budget} showDelete={true} />
@@ -84,7 +84,7 @@ const BudgetPage = () => {
       {expenses && expenses.length > 0 && (
         <div className="grid-md">
           <h2>
-            <span className="accent">{budget.name}</span> Expenses
+            <span className="accent">{budget.Name}</span> Expenses
           </h2>
           <Table expenses={expenses} showBudget={false} />
         </div>

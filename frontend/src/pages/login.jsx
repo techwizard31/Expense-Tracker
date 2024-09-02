@@ -63,7 +63,7 @@ function Login() {
       }else if(!responsed.ok){
         toast.error(jsoned.error);
       }
-      navigate("/home");
+      navigate("/");
       setName("");
       setEmail("");
       setPassword("");
