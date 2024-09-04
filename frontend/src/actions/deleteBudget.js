@@ -38,8 +38,8 @@ export async function deleteBudget({ params }) {
     const existingData = fetchData("expenses");
     const newData = existingData.filter((item) => item.budgetId !== params.id);
     sessionStorage.setItem("expenses", JSON.stringify(newData));
-    toast.success("Budget deleted successfully!");
     window.location.href = '/';
+    toast.success("Budget deleted successfully!");
   } catch (e) {
     throw new Error("There was a problem deleting your budget.");
   }
