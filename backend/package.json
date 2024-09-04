@@ -10,7 +10,9 @@
     "validator": "^13.12.0"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "build": "npm install",
+    "dev": "nodemon -L server.js"
   },
   "name": "backend",
   "version": "1.0.0",

@@ -1,0 +1,27 @@
+version: "3.9"
+services:
+   backend:
+    build: ./backend
+    container_name: expense_b
+    environment:
+      - PORT=${PORT}
+      - LINK=${LINK}
+      - MONGO_URI=${MONGO_URI}
+      - SECRET=${SECRET}
+    ports:
+      - '4000:4000'
+    volumes:
+      - ./backend:/server
+      - /server/node_modules
+   frontend:
+    build: ./frontend
+    container_name: expense_f
+    environment:
+      - VITE_APP_LINKED=${VITE_APP_LINKED}
+    ports:
+      - '5173:5173'  
+    stdin_open: true
+    tty: true   
+    volumes:
+      - ./frontend:/app 
+      - /app/node_modules  
