@@ -13,7 +13,7 @@ import { deleteBudget } from "./actions/deleteBudget";
 
 // Routes
 import Dashboard, { dashboardAction, dashboardLoader } from "./pages/Dashboard";
-import Signup from "./pages/signup";
+import Signup from "./pages/Signup";
 import Login from "./pages/login";
 import Error from "./pages/Error";
 import BudgetPage, { budgetAction, budgetLoader } from "./pages/BudgetPage";
