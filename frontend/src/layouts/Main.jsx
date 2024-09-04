@@ -12,7 +12,8 @@ import { fetchData } from "../helpers"
 
 // loader
 export function mainLoader() {
-  const userName = fetchData("userName");
+  const User = fetchData("User");
+  const userName = User?.user?.Name ?? null;
   return { userName }
 }
 

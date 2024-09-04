@@ -18,10 +18,10 @@ function Login() {
   };
 
   const handlegooglelogin = async(email) =>{
-    const response = await fetch(`http://localhost:4000/googlelogin`, {
+    const response = await fetch(`${import.meta.env.VITE_APP_LINKED}/googlelogin`, {
       method: "POST",
-      headers: { "Content-type": "application/json" },
       body: JSON.stringify({ email: email }),
+      headers: { "Content-type": "application/json" },
     });
     const json = await response.json();
     if (!response.ok) {
@@ -30,7 +30,7 @@ function Login() {
     if (response.ok) {
       toast.success("Logged In Successfully");
       sessionStorage.setItem("User", JSON.stringify(json));
-      const responsed = await fetch(`http://localhost:4000/expense/`, {
+      const responsed = await fetch(`${import.meta.env.VITE_APP_LINKED}/expense/`, {
         method: "POST",
         headers: { "Content-type": "application/json" ,
           Authorization: `Bearer ${json.token}`,
@@ -63,12 +63,12 @@ function Login() {
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault(); 
     if (!email || !password ) {
       toast.error("Fill all the fields !");
       return;
     }
-    const response = await fetch(`http://localhost:4000/login`, {
+    const response = await fetch(`${import.meta.env.VITE_APP_LINKED}/login`, {
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({ email: email, password: password }),

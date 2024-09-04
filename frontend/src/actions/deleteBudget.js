@@ -11,7 +11,7 @@ const handledelete = async(id) =>{
   const existingData = fetchData("budgets");
   const User = JSON.parse(sessionStorage.getItem("User"));
   const response = await fetch(
-    `http://localhost:4000/expense/delete`,
+    `${import.meta.env.VITE_APP_LINKED}/delete`,
     {
       method: "POST",
       headers: {
