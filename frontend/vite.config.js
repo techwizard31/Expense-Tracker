@@ -8,5 +8,12 @@ export default defineConfig({
     host: '0.0.0.0', // Listen on all interfaces
     port: 5173,      // Default port for Vite
     strictPort: true // Fail if port 5173 is not available
+  },
+  build: {
+    outDir: 'dist',
+    sourcemap: true,
+    rollupOptions: {
+      // customize Rollup options
+    }
   }
 })
