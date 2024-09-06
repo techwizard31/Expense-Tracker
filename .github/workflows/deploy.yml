@@ -46,7 +46,7 @@ jobs:
             -e LINK='${{ secrets.LINK }}' \
             -e MONGO_URI='${{ secrets.MONGO_URI }}' \
             -e SECRET='${{ secrets.SECRET }}' \
-            yourdockerhubusername/expense-tracker:backend"
+            istaprasad/expense-tracker:backend"
 
       - name: Run frontend container
         run: |
