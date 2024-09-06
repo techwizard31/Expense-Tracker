@@ -40,17 +40,17 @@ jobs:
 
       - name: Run backend container
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} \
-            'docker run -d --name expense_b -p 4000:4000 \
-             -e PORT=${{ secrets.PORT }} \
-             -e LINK=${{ secrets.LINK }} \
-             -e MONGO_URI=${{ secrets.MONGO_URI }} \
-             -e SECRET=${{ secrets.SECRET }} \
-             istaprasad/expense-tracker:backend'
+           ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} \
+           "docker run -d --name expense_b -p 4000:4000 \
+            -e PORT='${{ secrets.PORT }}' \
+            -e LINK='${{ secrets.LINK }}' \
+            -e MONGO_URI='${{ secrets.MONGO_URI }}' \
+            -e SECRET='${{ secrets.SECRET }}' \
+            yourdockerhubusername/expense-tracker:backend"
 
       - name: Run frontend container
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} \
-            'docker run -d --name expense_f -p 5173:5173 \
-             -e VITE_APP_LINKED=${{ secrets.VITE_APP_LINKED }} \
-             istaprasad/expense-tracker:frontend'
+          "docker run -d --name expense_f -p 5173:5173 \
+            -e VITE_APP_LINKED='${{ secrets.VITE_APP_LINKED }}' \
+          istaprasad/expense-tracker:frontend"
