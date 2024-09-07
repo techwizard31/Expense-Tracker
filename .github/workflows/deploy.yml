@@ -30,9 +30,9 @@ jobs:
         run: |
           docker build -t istaprasad/expense-tracker:backend ./backend
 
-      - name: Build new frontend Docker image
+      - name: Build new frontend Docker image with VITE environment variable
         run: |
-          docker build -t istaprasad/expense-tracker:frontend ./frontend
+          DOCKER_BUILDKIT=1 docker build --build-arg VITE_APP_LINKED=${{ secrets.VITE_APP_LINKED }} -t istaprasad/expense-tracker:frontend ./frontend
 
       - name: Push new backend Docker image
         run: |
@@ -73,5 +73,4 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} \
           "docker run -d --name expense_f -p 5173:80 \
-            -e VITE_APP_LINKED='${{ secrets.VITE_APP_LINKED }}' \
-          istaprasad/expense-tracker:frontend"
+            istaprasad/expense-tracker:frontend"
