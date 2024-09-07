@@ -68,7 +68,7 @@ function Login() {
       toast.error("Fill all the fields !");
       return;
     }
-    console.log(import.meta.env.VITE_APP_LINKED)
+    console.log(`${import.meta.env.VITE_APP_LINKED}/login`)
     const response = await fetch(`${import.meta.env.VITE_APP_LINKED}/login`, {
       method: "POST",
       headers: { "Content-type": "application/json" },
