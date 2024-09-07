@@ -19,7 +19,7 @@ services:
     environment:
       - VITE_APP_LINKED=${VITE_APP_LINKED}
     ports:
-      - '5173:5173'  
+      - '5173:80'  
     stdin_open: true
     tty: true   
     volumes:

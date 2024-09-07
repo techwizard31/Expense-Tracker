@@ -12,12 +12,10 @@ RUN npm run build
 
 FROM nginx:1.27.1-alpine
 
-WORKDIR /usr/share/nginx/html
+RUN rm -rf /usr/share/nginx/html/*
 
-RUN rm -rf ./*
+COPY --from=builder /app/dist /usr/share/nginx/html
 
-COPY --from=builder /app/dist .
-
-EXPOSE 5173 
+EXPOSE 80 
 
 ENTRYPOINT [ "nginx", "-g" , "daemon off;" ]

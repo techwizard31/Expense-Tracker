@@ -51,6 +51,6 @@ jobs:
       - name: Run frontend container
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} \
-          "docker run -d --name expense_f -p 5173:5173 \
+          "docker run -d --name expense_f -p 5173:80 \
             -e VITE_APP_LINKED='${{ secrets.VITE_APP_LINKED }}' \
           istaprasad/expense-tracker:frontend"
