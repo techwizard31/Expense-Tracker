@@ -18,6 +18,6 @@ RUN rm -rf ./*
 
 COPY --from=builder /app/dist .
 
-EXPOSE 5173
+EXPOSE 5173 
 
 ENTRYPOINT [ "nginx", "-g" , "daemon off;" ]
