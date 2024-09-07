@@ -68,7 +68,7 @@ function Login() {
       toast.error("Fill all the fields !");
       return;
     }
-    console.log(import.meta.env.VITE_APP_LINKED)
+    console.log(import.meta.env.VITE_APP_LINKED , )
     const response = await fetch(`${import.meta.env.VITE_APP_LINKED}/login`, {
       method: "POST",
       headers: { "Content-type": "application/json" },
@@ -81,7 +81,7 @@ function Login() {
     if (response.ok) {
       toast.success("Logged In Successfully");
       sessionStorage.setItem("User", JSON.stringify(json));
-      const responsed = await fetch(`http://localhost:4000/expense/`, {
+      const responsed = await fetch(`${import.meta.env.VITE_APP_LINKED}/expense/`, {
         method: "POST",
         headers: { "Content-type": "application/json" ,
           Authorization: `Bearer ${json.token}`,
