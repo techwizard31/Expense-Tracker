@@ -4,6 +4,10 @@ WORKDIR /app
 
 COPY package.json .
 
+ARG VITE_APP_LINKED
+
+ENV VITE_APP_LINKED=$VITE_APP_LINKED
+
 RUN npm install 
 
 COPY . .
