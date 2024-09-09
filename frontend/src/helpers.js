@@ -41,8 +41,8 @@ export const deleteItem = async ({ key, id, budgetId }) => {
       const json = await response.json();
       if (response.ok) {
         const newData = existingData.filter((item) => item._id !== id);
+        sessionStorage.setItem(key, JSON.stringify(newData));
         window.location.reload();
-        return sessionStorage.setItem(key, JSON.stringify(newData));
       }
     }
   return sessionStorage.removeItem(key);
@@ -74,11 +74,11 @@ export const createBudget = async ({ name, amount }) => {
       expenses: [],
     };
     const existingBudgets = fetchData("budgets") ?? [];
-    window.location.reload()
-    return sessionStorage.setItem(
+    sessionStorage.setItem(
       "budgets",
       JSON.stringify([...existingBudgets, newItem])
     );
+    window.location.reload()
   } else if (!response.ok) {
     toast.error(json.error);
   }
@@ -106,11 +106,11 @@ export const createExpense = async ({ name, amount, budgetId }) => {
       budgetId: budgetId,
     };
     const existingExpenses = fetchData("expenses") ?? [];
-    window.location.reload();
-    return sessionStorage.setItem(
+    sessionStorage.setItem(
       "expenses",
       JSON.stringify([...existingExpenses, newItem])
     );
+    window.location.reload();
     
   } else if (!response.ok) {
     toast.error(json.error);
