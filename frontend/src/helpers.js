@@ -44,8 +44,9 @@ export const deleteItem = async ({ key, id, budgetId }) => {
         sessionStorage.setItem(key, JSON.stringify(newData));
         window.location.reload();
       }
+    }else{
+      sessionStorage.removeItem(key);
     }
-  return sessionStorage.removeItem(key);
 };
 
 // create budget
