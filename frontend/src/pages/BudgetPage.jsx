@@ -56,6 +56,7 @@ export async function budgetAction({ request }) {
       await deleteItem({
         key: "expenses",
         id: values.expenseId,
+        budgetId: values.BudgetId
       });
       return toast.success("Expense deleted!");
     } catch (e) {
