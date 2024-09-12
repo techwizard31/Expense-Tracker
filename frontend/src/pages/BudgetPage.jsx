@@ -11,7 +11,6 @@ import Table from "../components/Table";
 
 // helpers
 import { createExpense, deleteItem, getAllMatchingItems} from "../helpers";
-
 // loader
 export async function budgetLoader({ params }) {
   const budget = await getAllMatchingItems({
