@@ -61,8 +61,10 @@ jobs:
 
       - name: Run backend container
         run: |
-           ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} \
-           "docker run -d --name expense_b -p 4000:4000 \
+            ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} \
+            "docker run -d --name expense_b -p 4000:4000 \
+            -v /etc/letsencrypt/live/kharcha.online:/etc/letsencrypt/live/kharcha.online:ro \
+            -v /etc/letsencrypt/archive/kharcha.online:/etc/letsencrypt/archive/kharcha.online:ro \
             -e PORT='${{ secrets.PORT }}' \
             -e LINK='${{ secrets.LINK }}' \
             -e MONGO_URI='${{ secrets.MONGO_URI }}' \
