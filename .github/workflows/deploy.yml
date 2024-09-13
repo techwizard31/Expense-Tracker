@@ -71,7 +71,9 @@ jobs:
 
       - name: Run frontend container
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} \
-          "docker run -d --name expense_f -p 80:80 -p 443:443 \
-           -v /etc/letsencrypt/live/kharcha.online:/etc/letsencrypt/live/kharcha.online \
-           istaprasad/expense-tracker:frontend"
+              ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} \
+              "docker run -d --name expense_f -p 80:80 -p 443:443 \
+              -v /etc/letsencrypt/live/kharcha.online:/etc/letsencrypt/live/kharcha.online:ro \
+              -v /etc/letsencrypt/archive/kharcha.online:/etc/letsencrypt/archive/kharcha.online:ro \
+              istaprasad/expense-tracker:frontend"
+          
