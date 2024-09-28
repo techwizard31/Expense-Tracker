@@ -30,7 +30,7 @@ function Login() {
     if (response.ok) {
       toast.success("Logged In Successfully");
       sessionStorage.setItem("User", JSON.stringify(json));
-      const responsed = await fetch(`${import.meta.env.VITE_APP_LINKED}/expense/`, {
+      const responsed = await fetch(`/api/expense/`, {
         method: "POST",
         headers: { "Content-type": "application/json" ,
           Authorization: `Bearer ${json.token}`,
@@ -80,7 +80,7 @@ function Login() {
     if (response.ok) {
       toast.success("Logged In Successfully");
       sessionStorage.setItem("User", JSON.stringify(json));
-      const responsed = await fetch(`${import.meta.env.VITE_APP_LINKED}/expense/`, {
+      const responsed = await fetch(`/api/expense/`, {
         method: "POST",
         headers: { "Content-type": "application/json" ,
           Authorization: `Bearer ${json.token}`,
