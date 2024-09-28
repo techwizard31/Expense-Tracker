@@ -69,8 +69,7 @@ jobs:
              -e LINK='${{ secrets.LINK }}' \
              -e MONGO_URI='${{ secrets.MONGO_URI }}' \
              -e SECRET='${{ secrets.SECRET }}' \
-             -e SSL_CERT_PATH='/etc/letsencrypt/live/kharcha.online/fullchain.pem' \
-             -e SSL_KEY_PATH='/etc/letsencrypt/live/kharcha.online/privkey.pem' \
+             --network host \
               istaprasad/expense-tracker:backend"
 
       - name: Run frontend container
@@ -79,5 +78,6 @@ jobs:
               "docker run -d --name expense_f -p 80:80 -p 443:443 \
               -v /etc/letsencrypt/live/kharcha.online:/etc/letsencrypt/live/kharcha.online:ro \
               -v /etc/letsencrypt/archive/kharcha.online:/etc/letsencrypt/archive/kharcha.online:ro \
+              --network host \
               istaprasad/expense-tracker:frontend"
           

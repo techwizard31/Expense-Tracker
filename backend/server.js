@@ -19,17 +19,10 @@ const corsOptions = {
 app.options("*", cors(corsOptions));
 app.use(cors(corsOptions));
 
-// SSL options
-const sslOptions = {
-  key: fs.readFileSync(process.env.SSL_KEY_PATH),
-  cert: fs.readFileSync(process.env.SSL_CERT_PATH)
-};
-
-// Use HTTPS to create a secure server
-https.createServer(sslOptions, app).listen(process.env.PORT, async () => {
+app.listen(process.env.PORT, async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI);
-    console.log(`Connected to MongoDB and listening securely on port ${process.env.PORT}`);
+    console.log(`Connected to MongoDB and listening on port ${process.env.PORT}`);
   } catch (error) {
     console.log(error);
   }
