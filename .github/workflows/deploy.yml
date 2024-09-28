@@ -69,6 +69,8 @@ jobs:
              -e LINK='${{ secrets.LINK }}' \
              -e MONGO_URI='${{ secrets.MONGO_URI }}' \
              -e SECRET='${{ secrets.SECRET }}' \
+             -e SSL_CERT_PATH='/etc/letsencrypt/live/kharcha.online/fullchain.pem' \
+             -e SSL_KEY_PATH='/etc/letsencrypt/live/kharcha.online/privkey.pem' \
               istaprasad/expense-tracker:backend"
 
       - name: Run frontend container

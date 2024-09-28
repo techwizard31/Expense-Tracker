@@ -21,8 +21,8 @@ app.use(cors(corsOptions));
 
 // SSL options
 const sslOptions = {
-  key: fs.readFileSync('/etc/letsencrypt/live/kharcha.online/privkey.pem'),
-  cert: fs.readFileSync('/etc/letsencrypt/live/kharcha.online/fullchain.pem')
+  key: fs.readFileSync(process.env.SSL_KEY_PATH),
+  cert: fs.readFileSync(process.env.SSL_CERT_PATH)
 };
 
 // Use HTTPS to create a secure server

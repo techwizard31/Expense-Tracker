@@ -1,13 +1,13 @@
 FROM node:18-alpine
 
+# Ensure the necessary dependencies for SSL are installed
+RUN apk add --no-cache openssl
+
 WORKDIR /server
 
 COPY package.json .
 
 RUN npm install
-
-# Ensure the necessary dependencies for SSL are installed
-RUN apk add --no-cache openssl
 
 COPY . .
 
