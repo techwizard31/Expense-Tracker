@@ -17,7 +17,7 @@ function Signup() {
       toast.error("Fill all the fields !");
       return;
     }
-    const response = await fetch(`${import.meta.env.VITE_APP_LINKED}/signup`, {
+    const response = await fetch(`/api/signup`, {
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({ Name: name, email: email, password: password }),
@@ -37,7 +37,7 @@ function Signup() {
   };
   const handlegooglesignup = async (email,Name) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_APP_LINKED}/googlesignup`, {
+      const response = await fetch(`/api/googlesignup`, {
         method: "POST",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify({ Name: Name, email: email }),

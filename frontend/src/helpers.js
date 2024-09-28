@@ -24,7 +24,7 @@ export const deleteItem = async ({ key, id, budgetId }) => {
     if (id) {
       const User = JSON.parse(sessionStorage.getItem("User"));
       const response = await fetch(
-        `${import.meta.env.VITE_APP_LINKED}/expense/deleteExpense`,
+        `/api/expense/deleteExpense`,
         {
           method: "DELETE",
           headers: {
@@ -52,7 +52,7 @@ export const deleteItem = async ({ key, id, budgetId }) => {
 // create budget
 export const createBudget = async ({ name, amount }) => {
   const User = JSON.parse(sessionStorage.getItem("User"));
-  const response = await fetch(`${import.meta.env.VITE_APP_LINKED}/expense/create`, {
+  const response = await fetch(`/api/expense/create`, {
     method: "POST",
     headers: {
       "Content-type": "application/json",
@@ -88,7 +88,7 @@ export const createBudget = async ({ name, amount }) => {
 // create expense
 export const createExpense = async ({ name, amount, budgetId }) => {
   const User = JSON.parse(sessionStorage.getItem("User"));
-  const response = await fetch(`${import.meta.env.VITE_APP_LINKED}/expense/createExpense`, {
+  const response = await fetch(`/api/expense/createExpense`, {
     method: "POST",
     headers: {
       "Content-type": "application/json",
