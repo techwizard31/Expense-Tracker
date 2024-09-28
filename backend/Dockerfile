@@ -4,10 +4,13 @@ WORKDIR /server
 
 COPY package.json .
 
-RUN npm install 
+RUN npm install
+
+# Ensure the necessary dependencies for SSL are installed
+RUN apk add --no-cache openssl
 
 COPY . .
 
 EXPOSE 4000
 
-CMD ["npm","run","dev"]
+CMD ["npm", "run", "dev"]
