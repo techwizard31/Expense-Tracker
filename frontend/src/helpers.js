@@ -49,7 +49,6 @@ export const deleteItem = async ({ key, id, budgetId }) => {
     }
 };
 
-// create budget
 export const createBudget = async ({ name, amount }) => {
   const User = JSON.parse(sessionStorage.getItem("User"));
   const response = await fetch(`/api/expense/create`, {
