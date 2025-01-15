@@ -24,7 +24,7 @@ jobs:
       - name: Delete old Docker images on EC2
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} \
-          'docker image prune -a -f'
+          'sudo docker image prune -a -f'
 
       - name: Build new backend Docker image
         run: |
@@ -45,37 +45,36 @@ jobs:
       - name: Stop and remove existing containers
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} \
-            'docker stop expense_b || true && docker rm expense_b || true'
+            'sudo docker stop expense_b || true && sudo docker rm expense_b || true'
           ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} \
-            'docker stop expense_f || true && docker rm expense_f || true'
+            'sudo docker stop expense_f || true && sudo docker rm expense_f || true'
 
       - name: Pull backend Docker image
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} \
-            'docker pull istaprasad/expense-tracker:backend'
+            'sudo docker pull istaprasad/expense-tracker:backend'
 
       - name: Pull frontend Docker image
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} \
-            'docker pull istaprasad/expense-tracker:frontend'
+            'sudo docker pull istaprasad/expense-tracker:frontend'
 
       - name: Run backend container
         run: |
-         ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} \
-          "docker run -d --name expense_b -p 4000:4000 \
+          ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} \
+          "sudo docker run -d --name expense_b -p 4000:4000 \
              --network host \
              -e PORT='${{ secrets.PORT }}' \
              -e LINK='${{ secrets.LINK }}' \
              -e MONGO_URI='${{ secrets.MONGO_URI }}' \
              -e SECRET='${{ secrets.SECRET }}' \
-              istaprasad/expense-tracker:backend"
+             istaprasad/expense-tracker:backend"
 
       - name: Run frontend container
         run: |
-              ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} \
-              "docker run -d --name expense_f -p 80:80 -p 443:443 \
-              -v /etc/letsencrypt/live/kharcha.online:/etc/letsencrypt/live/kharcha.online:ro \
-              -v /etc/letsencrypt/archive/kharcha.online:/etc/letsencrypt/archive/kharcha.online:ro \
-              --network host \
-              istaprasad/expense-tracker:frontend"
-          
+          ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} \
+          "sudo docker run -d --name expense_f -p 80:80 -p 443:443 \
+             -v /etc/letsencrypt/live/kharcha.online:/etc/letsencrypt/live/kharcha.online:ro \
+             -v /etc/letsencrypt/archive/kharcha.online:/etc/letsencrypt/archive/kharcha.online:ro \
+             --network host \
+             istaprasad/expense-tracker:frontend"
