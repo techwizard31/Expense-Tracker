@@ -8,73 +8,73 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
+        
       - name: Set up SSH agent
         uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
-
+          
       - name: Log in to Docker Hub
         run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-
+        
       - name: Delete old Docker images on EC2
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} \
           'sudo docker image prune -a -f'
-
+          
       - name: Build new backend Docker image
         run: |
           docker build -t istaprasad/expense-tracker:backend ./backend
-
+          
       - name: Build new frontend Docker image with VITE environment variable
         run: |
           DOCKER_BUILDKIT=1 docker build --build-arg VITE_APP_LINKED=${{ secrets.VITE_APP_LINKED }} -t istaprasad/expense-tracker:frontend ./frontend
-
+          
       - name: Push new backend Docker image
         run: |
           docker push istaprasad/expense-tracker:backend
-
+          
       - name: Push new frontend Docker image
         run: |
           docker push istaprasad/expense-tracker:frontend
-
+          
       - name: Stop and remove existing containers
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} \
             'sudo docker stop expense_b || true && sudo docker rm expense_b || true'
           ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} \
             'sudo docker stop expense_f || true && sudo docker rm expense_f || true'
-
+            
       - name: Pull backend Docker image
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} \
             'sudo docker pull istaprasad/expense-tracker:backend'
-
+            
       - name: Pull frontend Docker image
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} \
             'sudo docker pull istaprasad/expense-tracker:frontend'
-
+            
       - name: Run backend container
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} \
-          "sudo docker run -d --name expense_b -p 4000:4000 \
-             --network host \
-             -e PORT='${{ secrets.PORT }}' \
-             -e LINK='${{ secrets.LINK }}' \
-             -e MONGO_URI='${{ secrets.MONGO_URI }}' \
-             -e SECRET='${{ secrets.SECRET }}' \
-             istaprasad/expense-tracker:backend"
-
+          "sudo docker run -d --name expense_b \
+            --network host \
+            -e PORT='${{ secrets.PORT }}' \
+            -e LINK='${{ secrets.LINK }}' \
+            -e MONGO_URI='${{ secrets.MONGO_URI }}' \
+            -e SECRET='${{ secrets.SECRET }}' \
+            istaprasad/expense-tracker:backend"
+            
       - name: Run frontend container
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} \
-          "sudo docker run -d --name expense_f -p 80:80 -p 443:443 \
-             -v /etc/letsencrypt/live/kharcha.online:/etc/letsencrypt/live/kharcha.online:ro \
-             -v /etc/letsencrypt/archive/kharcha.online:/etc/letsencrypt/archive/kharcha.online:ro \
-             --network host \
-             istaprasad/expense-tracker:frontend"
+          "sudo docker run -d --name expense_f \
+            --network host \
+            -v /etc/letsencrypt/live/kharcha.online:/etc/letsencrypt/live/kharcha.online:ro \
+            -v /etc/letsencrypt/archive/kharcha.online:/etc/letsencrypt/archive/kharcha.online:ro \
+            istaprasad/expense-tracker:frontend"
